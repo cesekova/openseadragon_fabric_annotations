@@ -1,0 +1,1 @@
+# openseadragon_fabric_annotations
