@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+.viewer-container {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+.viewer-container .viewer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+}
+.viewer-container #osd {
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+}
+.viewer-container #osd {
+  pointer-events: auto;
+}
+
+.imageAnnotationToolbarAndButtons {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  border-radius: 5px;
+  background: #fff;
+  border: 1px solid #000;
+  width: 500px;
+  padding: 10px;
+}
+.controls-container button {
+  width: 100%;
+  padding: 5px 0;
+  margin-bottom: 5px;
+}
+
+#input_form {
+  left: 5px;
+  position: fixed;
+  z-index: 999999;
+  height: max-content;
+  width: max-content;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+
+}
+
+
+
+   </style>
+  </head>
+  <body>
+
+
+
+    <div class="viewer-container">
+      <div class="viewer">
+        <div id="osd"></div>
+      </div>
+    </div>
+
+
+    <div class="imageAnnotationToolbarAndButtons">
+      <div id="annotationButtonWrapper">
+          <p1>Annotations visibility: </p1>
+          <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                  <input type="radio" name="annotationsOnOrOff" id="on" autocomplete="off" value="on" checked>On
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="radio" name="annotationsOnOrOff" id="off" autocomplete="off" value="off">Off
+              </label>
+          </div>
+          </br>
+          <p1> Set opacity: </p1>
+          </br>
+          <input type="range" id="opacity_control" min="0" max="1" value="0.4" step="0.1">
+          </br>
+          <button id="toggleImageAnnotationsMenu" class="btn btn-secondary" onclick="openseadragon_image_annotations.toggleMenuBar()">Annotation control</button>
+          <button type="button" class="btn btn-secondary"  autocomplete="off" id="downloadAnnotation">Download annotations</button>
+          <button type="button" class="btn btn-secondary"  autocomplete="off" id="sendAnnotation" disabled>Send</button>
+      </div>
+    </br>
+    <div id="imageAnnotationToolbar">
+      <p1> To add annotations, enter "Add Annotation"  mode. </p1>
+      </br>
+      <p1> To edit/move annotations, enter "Edit Annotation" mode. </p1>
+      </br>
+      <div id="imageToolbarRow1">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                  <input type="radio" name="cursorMode" id="navigateImage" autocomplete="off" value="OSD" checked>Navigate
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="radio" name="cursorMode" id="addAnnotation" autocomplete="off" value="addAnnotation">Add Annotations
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="radio" name="cursorMode" id="editAnnotation" autocomplete="off" value="editAnnotation">Edit Annotations
+              </label>
+            </div>
+            <button type="button" class="btn btn-secondary"  autocomplete="off" id="edit" disabled>Toggle editing polygon</button>
+        </div>
+        <p1> Select annotation type: </p1>
+        </br>
+      <div id="imageToolbarRow2">
+          <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-secondary active" >
+                  <input type="radio" name="annotationType" id="rectangle" autocomplete="off" value="rectangle" checked>Rectangle
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="radio" name="annotationType" id="polygon" autocomplete="off" value="polygon">Polygon
+              </label>
+          </div>
+      </div>
+      <p1> Select annotation color: </p1>
+          <input type='text' id="colorPicker"/>
+      </br>
+      <div id="imageToolbarRow3">
+          <button type="button" class="btn btn-secondary"  aria-pressed="false" autocomplete="off" id="deleteSelected">Delete Selected</button>
+          <button type="button" class="btn btn-secondary"  aria-pressed="false" autocomplete="off" id="deleteAll">Delete All</button>
+      </div>
+      </br>
+      <a id="download_link1" download="my_exported_file.json" href=”” hidden>Download as json File</a>
+      <a id="download_link2" download="my_exported_file.xml" href=”” hidden>Download as xml File</a>
+    </div>
+  </div>
+
+  <div id="input_form" style="display:none">
+    <table>
+      <tr>
+        <td>type</td>
+        <td>  <input id="annotation_type" type="type" name="type" tabindex="1" autofocus value="{type}" disabled> </td>
+      </tr>
+      <tr>
+        <td>category</td>
+        <td>
+          <select id="annotation_group" tabindex="2" name="Group">
+            <option value="None" selected>None</option>
+            <option value="Category1" >Category1</option>
+            <option value="Category2">Category2</option>
+            <option value="Category3">Category3</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">comment
+          <textarea id="annotation_comment" placeholder="Add a comment..." name="text" rows="2" tabindex="3"></textarea>
+        </td>
+    </tr>
+  </table>
+</div>
+
+    <!-- jquery -->
+    <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+
+<!-- Bootstrap 4 Alpha -->
+<script>
+  window.Tether = {};
+</script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+
+<script src="./openseadragon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+<script src="./fabric.min.js"></script>
+<script src="./openseadragon-fabricjs-overlay.js"></script>
+<script src="./osd_fabric_annotation.js"></script>
+
+
+
+<script type="text/javascript">
+var duomo = {
+Image: {
+  xmlns: "http://schemas.microsoft.com/deepzoom/2008",
+  Url: "//openseadragon.github.io/example-images/duomo/duomo_files/",
+  Format: "jpg",
+  Overlap: "2",
+  TileSize: "256",
+  Size: {
+    Width:  "13920",
+    Height: "10200"
+  }
+}
+};
+
+var viewer = OpenSeadragon({
+id: "osd",
+prefixUrl: "//openseadragon.github.io/openseadragon/images/",
+tileSources: duomo
+});
+
+viewer.addHandler('open', initialize_annotations);
+
+
+/* initialize_annotations()
+Create annotation overlay and enables annotation control(add, edit, dowload...)
+
+- scale: width of source image (annotationcanvas is created with same width)
+- json_annotation: json file with annotation description, viewer will visualize
+                   provided annotaions
+*/
+function initialize_annotations(){
+  console.log("here");
+var options = {
+                scale: viewer.world.getItemAt(0).source.Image.Size.Width
+              };
+var json_annotation  = "";
+openseadragon_image_annotations.initialize(json_annotation, viewer,options);
+
+};
+
+</script>
