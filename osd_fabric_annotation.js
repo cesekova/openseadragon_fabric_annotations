@@ -286,11 +286,9 @@ var openseadragon_image_annotations = {
 					 var doc = generate_ASAPxml(openseadragon_image_annotations.overlay.fabricCanvas()._objects);
 				   var xml_text = new XMLSerializer().serializeToString(doc);
 
-          // get file name from probabilities layer (axperiment:slide)
-					 var probabs_url_array = openseadragon_image_annotations.viewer.tileSources[2].split("=")[1].split("/");
-				   var slide = probabs_url_array.pop().split(".")[0].slice(0,-4);
-				   var experiment = probabs_url_array.pop();
-				   var file_name = [experiment, slide].join(":");
+
+					 //var file_name = openseadragon_image_annotations.viewer.tileSources[0]
+				   var file_name = "demo";
 
 						//prepare data to be send, (file_name and xml with annotations)
 					 var send_data = {"name": file_name, "xml":xml_text};
