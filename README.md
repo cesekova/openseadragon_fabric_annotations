@@ -5,7 +5,8 @@ based on : https://github.com/WilliamCarlos/OpenSeadragonAnnotationPlugin
  - rectangle and polygonal annotations  
  - input form for each annotation
  - editing of annotations coordinates
- - download JSON file with annotation description
+ - setting annotations opacity
+ - download JSON file with annotations description
  - download XML file with spesific ASAP format 
  - send XML via AJAX (disabled in demo, fill out url on line 304 and enable send button in test.html)
  
