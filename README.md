@@ -11,4 +11,4 @@ based on : https://github.com/WilliamCarlos/OpenSeadragonAnnotationPlugin
  
 Annotation funcionality was part of the [project](https://github.com/cesekova/openseadragon_project) for digital pathology research.
 
-You can try the [demo](https://cesekova.github.io/openseadragon_fabric_annotations/test.html)
+You can try the [demo](https://cesekova.github.io/openseadragon_fabric_annotations/test.html) and check the [manual](https://cesekova.github.io/openseadragon_fabric_annotations/user_manual.PNG)
